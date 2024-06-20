@@ -9,15 +9,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      user_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       date: {
         allowNull: false,
         type: Sequelize.STRING
       },
       text: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      email: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -32,7 +32,6 @@ module.exports = {
       deletedAt: {
         type: Sequelize.DATE
       }
-
     });
   },
   async down(queryInterface, Sequelize) {

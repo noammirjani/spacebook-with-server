@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const ROUNDS = 10; //define the complexity of the encryption
 
 /**
- * Exports a function that defines the User model. This function is called by the models/register.js file
+ * Exports a function that defines the User model. This function is called by the models/registerController.js file
  * and is used to define the User model and its fields.
  * @param {Object} sequelize - The Sequelize instance.
  * @param {Object} DataTypes - The data types used by Sequelize.
@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
          * @param {Object} models - The models object that contains all the defined models.
          */
         static associate(models) {
+            // define association here
+            User.hasMany(models.Comments, {foreignKey: 'user_id'});
         }
     }
 
@@ -60,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize.addHook('beforeValidate', (user) => {
         // user.firstName = user.firstName.toLowerCase();
         // user.lastName = user.lastName.toLowerCase();
-        user.email = user.email.toLowerCase();
+       // user.email = user.email.toLowerCase();
     });
 
     /**

@@ -4,13 +4,12 @@ let cookieParser = require('cookie-parser');
 let logger       = require('morgan');
 const session    = require('express-session');
 let access       = require('./controllers/checkAccess');
-let createError  = require('http-errors');
-let fs           = require('fs');
+const fs         = require('fs');
 
 
-let registerRouter = require('./routes/register'); //register
-let loginRouter    = require('./routes/login');       //login
-let apiRouter = require('./routes/api'); //comments
+let registerRouter = require('./routes/registerRoute'); //register
+let loginRouter    = require('./routes/loginRoute');       //login
+let apiRouter = require('./routes/homeRoute'); //comments
 
 
 let app = express();
@@ -41,21 +40,17 @@ app.use('/', access.checkLogout, loginRouter);
 app.use('/register', access.checkLogout, registerRouter);
 app.use('/login',access.checkLogout, loginRouter);
 
+
+//error handler
+app.use(function (req, res, next, err) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.title = "error! BAD URL!";
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+//app.listen(3000)
 module.exports = app;
-
-
-// // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   res.status(404).send("Oops, looks like you landed at the wrong URL!");
-// });
-//
-// // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-//
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');// use a default error page error.ejs
-// });
